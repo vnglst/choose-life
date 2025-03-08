@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Choose Life - Trainspotting</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oxanium:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
     <style>
       * {
         margin: 0;
@@ -12,9 +16,13 @@
       }
 
       body {
-        font-family: Helvetica, Arial, sans-serif;
+        font-family: "Archivo Black", sans-serif;
         overflow-x: hidden;
         background-color: #ff5c00;
+        text-transform: uppercase;
+        font-optical-sizing: auto;
+        font-weight: 800;
+        font-style: normal;
       }
 
       .poster {
@@ -43,22 +51,23 @@
         position: relative;
         width: 100%;
         overflow: hidden;
-        margin: 0;
       }
 
       .scrolling-text-inner {
         display: flex;
-        flex-direction: column;
-        height: 100%;
+        white-space: nowrap;
+      }
+
+      .scrolling-wrapper {
+        display: flex;
       }
 
       .scrolling-line {
-        white-space: nowrap;
+        display: inline-block;
         font-weight: bold;
         font-size: 4rem;
         letter-spacing: 1px;
-        animation: scroll-left 80s linear infinite;
-        font-family: Helvetica, Arial, sans-serif;
+        padding-right: 5rem;
       }
 
       .white-line {
@@ -71,11 +80,15 @@
 
       @keyframes scroll-left {
         0% {
-          transform: translateX(100%);
+          transform: translateX(0);
         }
         100% {
-          transform: translateX(-150%);
+          transform: translateX(-50%);
         }
+      }
+
+      .animate {
+        animation: scroll-left linear infinite;
       }
 
       @media (max-width: 768px) {
@@ -112,26 +125,27 @@
         const whiteTextContent = `CHOOSE A JOB. CHOOSE A CAREER. CHOOSE A FAMILY. CHOOSE A FUCKING BIG TELEVISION, CHOOSE WASHING MACHINES, CARS, COMPACT DISC PLAYERS, AND ELECTRICAL TIN OPENERS. CHOOSE GOOD HEALTH, LOW CHOLESTEROL AND DENTAL INSURANCE. CHOOSE FIXED-INTEREST MORTGAGE REPAYMENTS. CHOOSE A STARTER HOME. CHOOSE YOUR FRIENDS. CHOOSE LEISURE WEAR AND MATCHING LUGGAGE. CHOOSE A THREE PIECE SUITE ON HIRE PURCHASE IN A RANGE OF FUCKING FABRICS. CHOOSE DIY AND WONDERING WHO YOU ARE ON A SUNDAY MORNING. CHOOSE SITTING ON THAT COUCH WATCHING MIND-NUMBING SPRIT-CRUSHING GAME SHOWS, STUFFING FUCKING JUNK FOOD INTO YOUR MOUTH. CHOOSE ROTTING AWAY AT THE END OF IT ALL, PISHING YOU LAST IN A MISERABLE HOME, NOTHING MORE THAN AN EMBARRASSMENT TO THE SELFISH, FUCKED-UP BRATS YOU HAVE SPAWNED TO REPLACE YOURSELF. CHOOSE YOUR FUTURE. CHOOSE LIFE... BUT WHY WOULD I WANT TO DO A THING LIKE THAT?`;
         const blackTextContent = `SO WHY DID I DO IT? I COULD OFFER A MILLION ANSWERS, ALL FALSE. THE TRUTH IS THAT I'M A BAD PERSON, BUT THAT'S GOING TO CHANGE, I'M GOING TO CHANGE. THIS IS THE LAST OF THIS SORT OF THING. I'M CLEANING UP AND I'M MOVING ON, GOING STRAIGHT AND CHOOSING LIFE. I'M LOOKING FORWARD TO IT ALREADY. I'M GOING TO BE JUST LIKE YOU: THE JOB, THE FAMILY, THE FUCKING BIG TELEVISION, THE WASHING MACHINE, THE CAR, THE COMPACT DISC AND ELECTRICAL TIN OPENER, GOOD HEALTH, LOW CHOLESTEROL, DENTAL INSURANCE, MORTGAGE, STARTER HOME, LEISUREWEAR, LUGGAGE, THREE-PIECE SUITE, DIY, GAME SHOWS, JUNK FOOD, CHILDREN, WALKS IN THE PARK, NINE TO FIVE, GOOD AT GOLF, WASHING THE CAR, CHOICE OF SWEATERS, FAMILY CHRISTMAS, INDEXED PENSION, TAX EXEMPTION, CLEARING THE GUTTERS, GETTING BY, LOOKING AHEAD, TO THE DAY YOU DIE...`;
 
+        function createContinuousScrolling(container, text, colorClass, duration) {
+          const wrapper = document.createElement("div");
+          wrapper.className = "scrolling-wrapper animate " + colorClass;
+          wrapper.style.animationDuration = duration + "s";
+
+          // Create two copies of the text
+          for (let i = 0; i < 2; i++) {
+            const line = document.createElement("div");
+            line.className = "scrolling-line";
+            line.textContent = text;
+            wrapper.appendChild(line);
+          }
+
+          container.appendChild(wrapper);
+        }
+
         const whiteContainer = document.getElementById("white-lines");
         const blackContainer = document.getElementById("black-lines");
 
-        function createScrollingLines(container, text, colorClass, count) {
-          for (let i = 0; i < count; i++) {
-            const line = document.createElement("div");
-            line.className = `scrolling-line ${colorClass}`;
-            line.textContent = text;
-
-            line.style.animation = `scroll-left ${60 + Math.random() * 30}s linear infinite`;
-
-            const delay = i * 1.2 + Math.random() * 3;
-            line.style.animationDelay = `${delay}s`;
-
-            container.appendChild(line);
-          }
-        }
-
-        createScrollingLines(whiteContainer, whiteTextContent, "white-line", 8);
-        createScrollingLines(blackContainer, blackTextContent, "black-line", 8);
+        createContinuousScrolling(whiteContainer, whiteTextContent, "white-line", 200 + Math.random() * 20);
+        createContinuousScrolling(blackContainer, blackTextContent, "black-line", 200 + Math.random() * 20);
       });
     </script>
   </body>
