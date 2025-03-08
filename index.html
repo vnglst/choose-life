@@ -56,10 +56,12 @@
       .scrolling-text-inner {
         display: flex;
         white-space: nowrap;
+        flex-direction: column;
       }
 
       .scrolling-wrapper {
         display: flex;
+        margin-bottom: 10px;
       }
 
       .scrolling-line {
@@ -93,11 +95,11 @@
 
       @media (max-width: 768px) {
         .title {
-          font-size: 3.5rem;
+          font-size: 4rem;
         }
 
         .scrolling-line {
-          font-size: 1.8rem;
+          font-size: 3rem;
         }
 
         .scrolling-container {
@@ -121,32 +123,38 @@
       <h1 class="title final">CHOOSE LIFE.</h1>
     </div>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const whiteTextContent = `CHOOSE A JOB. CHOOSE A CAREER. CHOOSE A FAMILY. CHOOSE A FUCKING BIG TELEVISION, CHOOSE WASHING MACHINES, CARS, COMPACT DISC PLAYERS, AND ELECTRICAL TIN OPENERS. CHOOSE GOOD HEALTH, LOW CHOLESTEROL AND DENTAL INSURANCE. CHOOSE FIXED-INTEREST MORTGAGE REPAYMENTS. CHOOSE A STARTER HOME. CHOOSE YOUR FRIENDS. CHOOSE LEISURE WEAR AND MATCHING LUGGAGE. CHOOSE A THREE PIECE SUITE ON HIRE PURCHASE IN A RANGE OF FUCKING FABRICS. CHOOSE DIY AND WONDERING WHO YOU ARE ON A SUNDAY MORNING. CHOOSE SITTING ON THAT COUCH WATCHING MIND-NUMBING SPRIT-CRUSHING GAME SHOWS, STUFFING FUCKING JUNK FOOD INTO YOUR MOUTH. CHOOSE ROTTING AWAY AT THE END OF IT ALL, PISHING YOU LAST IN A MISERABLE HOME, NOTHING MORE THAN AN EMBARRASSMENT TO THE SELFISH, FUCKED-UP BRATS YOU HAVE SPAWNED TO REPLACE YOURSELF. CHOOSE YOUR FUTURE. CHOOSE LIFE... BUT WHY WOULD I WANT TO DO A THING LIKE THAT?`;
-        const blackTextContent = `SO WHY DID I DO IT? I COULD OFFER A MILLION ANSWERS, ALL FALSE. THE TRUTH IS THAT I'M A BAD PERSON, BUT THAT'S GOING TO CHANGE, I'M GOING TO CHANGE. THIS IS THE LAST OF THIS SORT OF THING. I'M CLEANING UP AND I'M MOVING ON, GOING STRAIGHT AND CHOOSING LIFE. I'M LOOKING FORWARD TO IT ALREADY. I'M GOING TO BE JUST LIKE YOU: THE JOB, THE FAMILY, THE FUCKING BIG TELEVISION, THE WASHING MACHINE, THE CAR, THE COMPACT DISC AND ELECTRICAL TIN OPENER, GOOD HEALTH, LOW CHOLESTEROL, DENTAL INSURANCE, MORTGAGE, STARTER HOME, LEISUREWEAR, LUGGAGE, THREE-PIECE SUITE, DIY, GAME SHOWS, JUNK FOOD, CHILDREN, WALKS IN THE PARK, NINE TO FIVE, GOOD AT GOLF, WASHING THE CAR, CHOICE OF SWEATERS, FAMILY CHRISTMAS, INDEXED PENSION, TAX EXEMPTION, CLEARING THE GUTTERS, GETTING BY, LOOKING AHEAD, TO THE DAY YOU DIE...`;
+      const whiteTextContent = `CHOOSE A JOB. CHOOSE A CAREER. CHOOSE A FAMILY. CHOOSE A FUCKING BIG TELEVISION, CHOOSE WASHING MACHINES, CARS, COMPACT DISC PLAYERS, AND ELECTRICAL TIN OPENERS. CHOOSE GOOD HEALTH, LOW CHOLESTEROL AND DENTAL INSURANCE. CHOOSE FIXED-INTEREST MORTGAGE REPAYMENTS. CHOOSE A STARTER HOME. CHOOSE YOUR FRIENDS. CHOOSE LEISURE WEAR AND MATCHING LUGGAGE. CHOOSE A THREE PIECE SUITE ON HIRE PURCHASE IN A RANGE OF FUCKING FABRICS. CHOOSE DIY AND WONDERING WHO YOU ARE ON A SUNDAY MORNING. CHOOSE SITTING ON THAT COUCH WATCHING MIND-NUMBING SPRIT-CRUSHING GAME SHOWS, STUFFING FUCKING JUNK FOOD INTO YOUR MOUTH. CHOOSE ROTTING AWAY AT THE END OF IT ALL, PISHING YOU LAST IN A MISERABLE HOME, NOTHING MORE THAN AN EMBARRASSMENT TO THE SELFISH, FUCKED-UP BRATS YOU HAVE SPAWNED TO REPLACE YOURSELF. CHOOSE YOUR FUTURE. CHOOSE LIFE... BUT WHY WOULD I WANT TO DO A THING LIKE THAT?`;
+      const blackTextContent = `SO WHY DID I DO IT? I COULD OFFER A MILLION ANSWERS, ALL FALSE. THE TRUTH IS THAT I'M A BAD PERSON, BUT THAT'S GOING TO CHANGE, I'M GOING TO CHANGE. THIS IS THE LAST OF THIS SORT OF THING. I'M CLEANING UP AND I'M MOVING ON, GOING STRAIGHT AND CHOOSING LIFE. I'M LOOKING FORWARD TO IT ALREADY. I'M GOING TO BE JUST LIKE YOU: THE JOB, THE FAMILY, THE FUCKING BIG TELEVISION, THE WASHING MACHINE, THE CAR, THE COMPACT DISC AND ELECTRICAL TIN OPENER, GOOD HEALTH, LOW CHOLESTEROL, DENTAL INSURANCE, MORTGAGE, STARTER HOME, LEISUREWEAR, LUGGAGE, THREE-PIECE SUITE, DIY, GAME SHOWS, JUNK FOOD, CHILDREN, WALKS IN THE PARK, NINE TO FIVE, GOOD AT GOLF, WASHING THE CAR, CHOICE OF SWEATERS, FAMILY CHRISTMAS, INDEXED PENSION, TAX EXEMPTION, CLEARING THE GUTTERS, GETTING BY, LOOKING AHEAD, TO THE DAY YOU DIE...`;
 
-        function createContinuousScrolling(container, text, colorClass, duration) {
-          const wrapper = document.createElement("div");
-          wrapper.className = "scrolling-wrapper animate " + colorClass;
-          wrapper.style.animationDuration = duration + "s";
+      function createContinuousScrolling(container, text, colorClass, duration, offset) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "scrolling-wrapper animate " + colorClass;
+        wrapper.style.animationDuration = duration + "s";
 
-          // Create two copies of the text
-          for (let i = 0; i < 2; i++) {
-            const line = document.createElement("div");
-            line.className = "scrolling-line";
-            line.textContent = text;
-            wrapper.appendChild(line);
-          }
-
-          container.appendChild(wrapper);
+        if (offset) {
+          wrapper.style.transform = `translateX(-${offset}%)`;
         }
 
-        const whiteContainer = document.getElementById("white-lines");
-        const blackContainer = document.getElementById("black-lines");
+        for (let i = 0; i < 2; i++) {
+          const line = document.createElement("div");
+          line.className = "scrolling-line";
+          line.textContent = text;
+          wrapper.appendChild(line);
+        }
 
-        createContinuousScrolling(whiteContainer, whiteTextContent, "white-line", 200 + Math.random() * 20);
-        createContinuousScrolling(blackContainer, blackTextContent, "black-line", 200 + Math.random() * 20);
-      });
+        container.appendChild(wrapper);
+      }
+
+      const whiteContainer = document.getElementById("white-lines");
+      const blackContainer = document.getElementById("black-lines");
+
+      createContinuousScrolling(whiteContainer, whiteTextContent, "white-line", 10, 0);
+      createContinuousScrolling(whiteContainer, whiteTextContent, "white-line", 10, 50);
+      createContinuousScrolling(whiteContainer, whiteTextContent, "white-line", 10, 80);
+
+      createContinuousScrolling(blackContainer, blackTextContent, "black-line", 10, 0);
+      createContinuousScrolling(blackContainer, blackTextContent, "black-line", 10, 50);
+      createContinuousScrolling(blackContainer, blackTextContent, "black-line", 10, 80);
     </script>
   </body>
 </html>
