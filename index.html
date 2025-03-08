@@ -14,20 +14,20 @@
       body {
         font-family: Helvetica, Arial, sans-serif;
         overflow-x: hidden;
-        background-color: #ff5c00; /* Trainspotting orange */
+        background-color: #ff5c00;
       }
 
       .poster {
         min-height: 100vh;
         width: 100%;
-        padding: 20px;
+        padding: 0;
         display: flex;
         flex-direction: column;
       }
 
       .title {
         color: #000;
-        font-size: 4rem;
+        font-size: 5rem;
         font-weight: bold;
         text-align: center;
         margin: 40px 0;
@@ -42,18 +42,23 @@
       .scrolling-container {
         position: relative;
         width: 100%;
-        height: 450px;
         overflow: hidden;
-        margin: 20px 0;
+        margin: 0;
+      }
+
+      .scrolling-text-inner {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
       }
 
       .scrolling-line {
-        position: absolute;
         white-space: nowrap;
-        animation: scroll linear infinite;
         font-weight: bold;
-        font-size: 1.2rem;
+        font-size: 4rem;
         letter-spacing: 1px;
+        animation: scroll-left 80s linear infinite;
+        font-family: Helvetica, Arial, sans-serif;
       }
 
       .white-line {
@@ -64,22 +69,26 @@
         color: #000;
       }
 
-      @keyframes scroll {
+      @keyframes scroll-right {
         0% {
-          transform: translateX(100vw);
+          transform: translateX(-150%);
         }
         100% {
-          transform: translateX(-300%);
+          transform: translateX(100%);
         }
       }
 
       @media (max-width: 768px) {
         .title {
-          font-size: 2.5rem;
+          font-size: 3.5rem;
         }
 
         .scrolling-line {
-          font-size: 1rem;
+          font-size: 1.8rem;
+        }
+
+        .scrolling-container {
+          height: 180px;
         }
       }
     </style>
@@ -87,18 +96,24 @@
   <body>
     <div class="poster">
       <h1 class="title">CHOOSE LIFE.</h1>
-      <div class="scrolling-container" id="white-text-container"></div>
-      <div class="scrolling-container" id="black-text-container"></div>
+
+      <div class="scrolling-container" id="white-text-container">
+        <div class="scrolling-text-inner" id="white-lines"></div>
+      </div>
+
+      <div class="scrolling-container" id="black-text-container">
+        <div class="scrolling-text-inner" id="black-lines"></div>
+      </div>
+
       <h1 class="title final">CHOOSE LIFE.</h1>
     </div>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const whiteTextContent = `CHOOSE A JOB. CHOOSE A CAREER. CHOOSE A FAMILY. CHOOSE A FUCKING BIG TELEVISION, CHOOSE WASHING MACHINES, CARS, COMPACT DISC PLAYERS, AND ELECTRICAL TIN OPENERS. CHOOSE GOOD HEALTH, LOW CHOLESTEROL AND DENTAL INSURANCE. CHOOSE FIXED-INTEREST MORTGAGE REPAYMENTS. CHOOSE A STARTER HOME. CHOOSE YOUR FRIENDS. CHOOSE LEISURE WEAR AND MATCHING LUGGAGE. CHOOSE A THREE PIECE SUITE ON HIRE PURCHASE IN A RANGE OF FUCKING FABRICS. CHOOSE DIY AND WONDERING WHO YOU ARE ON A SUNDAY MORNING. CHOOSE SITTING ON THAT COUCH WATCHING MIND-NUMBING SPRIT-CRUSHING GAME SHOWS, STUFFING FUCKING JUNK FOOD INTO YOUR MOUTH. CHOOSE ROTTING AWAY AT THE END OF IT ALL, PISHING YOU LAST IN A MISERABLE HOME, NOTHING MORE THAN AN EMBARRASSMENT TO THE SELFISH, FUCKED-UP BRATS YOU HAVE SPAWNED TO REPLACE YOURSELF. CHOOSE YOUR FUTURE. CHOOSE LIFE... BUT WHY WOULD I WANT TO DO A THING LIKE THAT?`;
-
         const blackTextContent = `SO WHY DID I DO IT? I COULD OFFER A MILLION ANSWERS, ALL FALSE. THE TRUTH IS THAT I'M A BAD PERSON, BUT THAT'S GOING TO CHANGE, I'M GOING TO CHANGE. THIS IS THE LAST OF THIS SORT OF THING. I'M CLEANING UP AND I'M MOVING ON, GOING STRAIGHT AND CHOOSING LIFE. I'M LOOKING FORWARD TO IT ALREADY. I'M GOING TO BE JUST LIKE YOU: THE JOB, THE FAMILY, THE FUCKING BIG TELEVISION, THE WASHING MACHINE, THE CAR, THE COMPACT DISC AND ELECTRICAL TIN OPENER, GOOD HEALTH, LOW CHOLESTEROL, DENTAL INSURANCE, MORTGAGE, STARTER HOME, LEISUREWEAR, LUGGAGE, THREE-PIECE SUITE, DIY, GAME SHOWS, JUNK FOOD, CHILDREN, WALKS IN THE PARK, NINE TO FIVE, GOOD AT GOLF, WASHING THE CAR, CHOICE OF SWEATERS, FAMILY CHRISTMAS, INDEXED PENSION, TAX EXEMPTION, CLEARING THE GUTTERS, GETTING BY, LOOKING AHEAD, TO THE DAY YOU DIE...`;
 
-        const whiteContainer = document.getElementById("white-text-container");
-        const blackContainer = document.getElementById("black-text-container");
+        const whiteContainer = document.getElementById("white-lines");
+        const blackContainer = document.getElementById("black-lines");
 
         function createScrollingLines(container, text, colorClass, count) {
           for (let i = 0; i < count; i++) {
@@ -106,31 +121,17 @@
             line.className = `scrolling-line ${colorClass}`;
             line.textContent = text;
 
-            // Space the lines vertically with slightly varied spacing
-            const verticalSpacing = 28 + Math.random() * 4;
-            line.style.top = `${i * verticalSpacing}px`;
+            line.style.animation = `scroll-left ${60 + Math.random() * 30}s linear infinite`;
 
-            // Different starting positions
-            const startPosition = (i % 5) * 20 + Math.random() * 10;
-            line.style.right = `-${startPosition}%`;
-
-            // Varied animation duration for more organic movement
-            const duration = 50 + Math.random() * 20;
-            line.style.animationDuration = `${duration}s`;
-
-            // Slight delay for each line
-            const delay = i * 0.8 + Math.random() * 2;
+            const delay = i * 1.2 + Math.random() * 3;
             line.style.animationDelay = `${delay}s`;
 
             container.appendChild(line);
           }
         }
 
-        // Create 15 scrolling white text lines
-        createScrollingLines(whiteContainer, whiteTextContent, "white-line", 15);
-
-        // Create 15 scrolling black text lines
-        createScrollingLines(blackContainer, blackTextContent, "black-line", 15);
+        createScrollingLines(whiteContainer, whiteTextContent, "white-line", 8);
+        createScrollingLines(blackContainer, blackTextContent, "black-line", 8);
       });
     </script>
   </body>
