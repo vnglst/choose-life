@@ -9,12 +9,15 @@
       rel="stylesheet"
     />
     <style>
+      /* Variables */
       :root {
         --main-bg-color: #ff5c00;
         --white-text-color: #fff;
         --black-text-color: #000;
+        --default-font: "Archivo Black", sans-serif;
       }
 
+      /* Global Styles */
       * {
         margin: 0;
         padding: 0;
@@ -22,27 +25,26 @@
       }
 
       body {
-        font-family: "Archivo Black", sans-serif;
+        font-family: var(--default-font);
         overflow-x: hidden;
         background-color: var(--main-bg-color);
         text-transform: uppercase;
-        font-optical-sizing: auto;
         font-weight: 800;
         font-style: normal;
       }
 
+      /* Poster Layout */
       .poster {
         min-height: 100vh;
         width: 100%;
-        padding: 0;
         display: flex;
         flex-direction: column;
       }
 
+      /* Titles */
       .title {
         color: var(--black-text-color);
         font-size: 5rem;
-        font-weight: bold;
         text-align: center;
         margin: 40px 0;
         letter-spacing: 2px;
@@ -53,24 +55,20 @@
         margin-top: 40px;
       }
 
-      /* Container styles */
+      /* Scrolling Text Components */
       .scrolling-text-container {
         border-radius: 4px;
         overflow: hidden;
         margin-bottom: 10px;
       }
 
-      /* Inner container styles */
       .scrolling-text-inner {
         display: flex;
         white-space: nowrap;
         font-size: 3.5em;
         padding: 8px 0;
-        --marquee-speed: 120s;
-        --direction: scroll-left;
       }
 
-      /* Text styles */
       .scrolling-text {
         display: flex;
       }
@@ -79,6 +77,7 @@
         padding: 0 10px;
       }
 
+      /* Text Colors */
       .white-text {
         color: var(--white-text-color);
       }
@@ -87,12 +86,11 @@
         color: var(--black-text-color);
       }
 
-      /* Apply the animation to the text items */
+      /* Animation */
       .scrolling-text-inner > div {
-        animation: var(--direction) var(--marquee-speed) linear infinite;
+        animation: scroll-left var(--marquee-speed, 120s) linear infinite;
       }
 
-      /* Setting the Animation using Keyframes */
       @keyframes scroll-left {
         0% {
           transform: translateX(0%);
@@ -102,16 +100,7 @@
         }
       }
 
-      @media (max-width: 768px) {
-        .title {
-          font-size: 3.5em;
-        }
-
-        .scrolling-text-inner {
-          font-size: 2.5em;
-        }
-      }
-
+      /* Footer */
       footer {
         margin-top: 30px;
         text-align: center;
@@ -134,15 +123,24 @@
       #made a:hover {
         opacity: 0.8;
       }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .title {
+          font-size: 3.5em;
+        }
+
+        .scrolling-text-inner {
+          font-size: 2.5em;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="poster">
       <h1 class="title">CHOOSE LIFE.</h1>
-
       <div id="white-text-section"></div>
       <div id="black-text-section"></div>
-
       <h1 class="title final">CHOOSE LIFE.</h1>
     </div>
 
@@ -158,107 +156,102 @@
       // Inspired by the opening scene of the movie Trainspotting
       // and Gina Trapani's Truisms project: https://truisms.ginatrapani.org/?s=0
 
-      const whiteTextSentences = [
-        "CHOOSE A JOB.",
-        "CHOOSE A CAREER.",
-        "CHOOSE A FAMILY.",
-        "CHOOSE A FUCKING BIG TELEVISION.",
-        "CHOOSE WASHING MACHINES, CARS, COMPACT DISC PLAYERS.",
-        "AND ELECTRICAL TIN OPENERS.",
-        "CHOOSE GOOD HEALTH, LOW CHOLESTEROL AND DENTAL INSURANCE.",
-        "CHOOSE FIXED-INTEREST MORTGAGE REPAYMENTS.",
-        "CHOOSE A STARTER HOME.",
-        "CHOOSE YOUR FRIENDS.",
-        "CHOOSE LEISURE WEAR AND MATCHING LUGGAGE.",
-        "CHOOSE A THREE PIECE SUITE ON HIRE PURCHASE IN A RANGE OF FUCKING FABRICS.",
-        "CHOOSE DIY AND WONDERING WHO YOU ARE ON A SUNDAY MORNING.",
-        "CHOOSE SITTING ON THAT COUCH WATCHING MIND-NUMBING SPRIT-CRUSHING GAME SHOWS.",
-        "STUFFING FUCKING JUNK FOOD INTO YOUR MOUTH.",
-        "CHOOSE ROTTING AWAY AT THE END OF IT ALL.",
-        "PISHING YOU LAST IN A MISERABLE HOME.",
-        "NOTHING MORE THAN AN EMBARRASSMENT TO THE SELFISH, FUCKED-UP BRATS YOU HAVE SPAWNED TO REPLACE YOURSELF.",
-        "CHOOSE YOUR FUTURE.",
-        "CHOOSE LIFE.",
-        "BUT WHY WOULD I WANT TO DO A THING LIKE THAT?.",
-      ];
+      // Content data
+      const texts = {
+        white: [
+          "CHOOSE A JOB.",
+          "CHOOSE A CAREER.",
+          "CHOOSE A FAMILY.",
+          "CHOOSE A FUCKING BIG TELEVISION.",
+          "CHOOSE WASHING MACHINES, CARS, COMPACT DISC PLAYERS.",
+          "AND ELECTRICAL TIN OPENERS.",
+          "CHOOSE GOOD HEALTH, LOW CHOLESTEROL AND DENTAL INSURANCE.",
+          "CHOOSE FIXED-INTEREST MORTGAGE REPAYMENTS.",
+          "CHOOSE A STARTER HOME.",
+          "CHOOSE YOUR FRIENDS.",
+          "CHOOSE LEISURE WEAR AND MATCHING LUGGAGE.",
+          "CHOOSE A THREE PIECE SUITE ON HIRE PURCHASE IN A RANGE OF FUCKING FABRICS.",
+          "CHOOSE DIY AND WONDERING WHO YOU ARE ON A SUNDAY MORNING.",
+          "CHOOSE SITTING ON THAT COUCH WATCHING MIND-NUMBING SPRIT-CRUSHING GAME SHOWS.",
+          "STUFFING FUCKING JUNK FOOD INTO YOUR MOUTH.",
+          "CHOOSE ROTTING AWAY AT THE END OF IT ALL.",
+          "PISHING YOU LAST IN A MISERABLE HOME.",
+          "NOTHING MORE THAN AN EMBARRASSMENT TO THE SELFISH, FUCKED-UP BRATS YOU HAVE SPAWNED TO REPLACE YOURSELF.",
+          "CHOOSE YOUR FUTURE.",
+          "CHOOSE LIFE.",
+          "BUT WHY WOULD I WANT TO DO A THING LIKE THAT?.",
+        ],
+        black: [
+          "SO WHY DID I DO IT?",
+          "I COULD OFFER A MILLION ANSWERS, ALL FALSE.",
+          "THE TRUTH IS THAT I'M A BAD PERSON, BUT THAT'S GOING TO CHANGE.",
+          "I'M GOING TO CHANGE.",
+          "THIS IS THE LAST OF THIS SORT OF THING.",
+          "I'M CLEANING UP AND I'M MOVING ON.",
+          "GOING STRAIGHT AND CHOOSING LIFE.",
+          "I'M LOOKING FORWARD TO IT ALREADY.",
+          "I'M GOING TO BE JUST LIKE YOU.",
+          "THE JOB, THE FAMILY, THE FUCKING BIG TELEVISION.",
+          "THE WASHING MACHINE, THE CAR, THE COMPACT DISC AND ELECTRICAL TIN OPENER.",
+          "GOOD HEALTH, LOW CHOLESTEROL, DENTAL INSURANCE, MORTGAGE, STARTER HOME.",
+          "LEISUREWEAR, LUGGAGE, THREE-PIECE SUITE.",
+          "DIY, GAME SHOWS, JUNK FOOD, CHILDREN.",
+          "WALKS IN THE PARK, NINE TO FIVE, GOOD AT GOLF.",
+          "WASHING THE CAR, CHOICE OF SWEATERS, FAMILY CHRISTMAS.",
+          "INDEXED PENSION, TAX EXEMPTION, CLEARING THE GUTTERS.",
+          "GETTING BY, LOOKING AHEAD, TO THE DAY YOU DIE...",
+        ],
+      };
 
-      const blackTextSentences = [
-        "SO WHY DID I DO IT?",
-        "I COULD OFFER A MILLION ANSWERS, ALL FALSE.",
-        "THE TRUTH IS THAT I'M A BAD PERSON, BUT THAT'S GOING TO CHANGE.",
-        "I'M GOING TO CHANGE.",
-        "THIS IS THE LAST OF THIS SORT OF THING.",
-        "I'M CLEANING UP AND I'M MOVING ON.",
-        "GOING STRAIGHT AND CHOOSING LIFE.",
-        "I'M LOOKING FORWARD TO IT ALREADY.",
-        "I'M GOING TO BE JUST LIKE YOU.",
-        "THE JOB, THE FAMILY, THE FUCKING BIG TELEVISION.",
-        "THE WASHING MACHINE, THE CAR, THE COMPACT DISC AND ELECTRICAL TIN OPENER.",
-        "GOOD HEALTH, LOW CHOLESTEROL, DENTAL INSURANCE, MORTGAGE, STARTER HOME.",
-        "LEISUREWEAR, LUGGAGE, THREE-PIECE SUITE.",
-        "DIY, GAME SHOWS, JUNK FOOD, CHILDREN.",
-        "WALKS IN THE PARK, NINE TO FIVE, GOOD AT GOLF.",
-        "WASHING THE CAR, CHOICE OF SWEATERS, FAMILY CHRISTMAS.",
-        "INDEXED PENSION, TAX EXEMPTION, CLEARING THE GUTTERS.",
-        "GETTING BY, LOOKING AHEAD, TO THE DAY YOU DIE...",
-      ];
+      // Helper functions
+      function shiftArray(array, n) {
+        return array.slice(n).concat(array.slice(0, n));
+      }
 
       function createScrollingRow(sentences, textColorClass, speed, container) {
-        // Create container
         const scrollContainer = document.createElement("div");
         scrollContainer.className = "scrolling-text-container";
 
-        // Create inner container
         const innerContainer = document.createElement("div");
         innerContainer.className = "scrolling-text-inner";
         innerContainer.style.setProperty("--marquee-speed", `${speed}s`);
 
-        // Create scrolling text div
         const scrollingText = document.createElement("div");
         scrollingText.className = "scrolling-text";
 
-        // Add each sentence
-        sentences.forEach((sentence) => {
+        // Add sentences twice for seamless looping
+        [...sentences, ...sentences].forEach((sentence) => {
           const textItem = document.createElement("div");
           textItem.className = `scrolling-text-item ${textColorClass}`;
           textItem.textContent = sentence;
           scrollingText.appendChild(textItem);
         });
 
-        // Add a duplicate of all sentences for seamless scrolling
-        sentences.forEach((sentence) => {
-          const textItem = document.createElement("div");
-          textItem.className = `scrolling-text-item ${textColorClass}`;
-          textItem.textContent = sentence;
-          scrollingText.appendChild(textItem);
-        });
-
-        // Assemble the components
         innerContainer.appendChild(scrollingText);
         scrollContainer.appendChild(innerContainer);
         container.appendChild(scrollContainer);
       }
 
-      // Move last n elements to the front
-      function shiftLeft(array, n) {
-        return array.slice(n).concat(array.slice(0, n));
+      // Generate scrolling rows
+      function generateScrollingRows(textArray, colorClass, containerId, configuration) {
+        const container = document.getElementById(containerId);
+        configuration.forEach((config) => {
+          createScrollingRow(shiftArray(textArray, config.shift), colorClass, config.speed, container);
+        });
       }
 
-      // Add white text rows
-      const whiteSection = document.getElementById("white-text-section");
-      createScrollingRow(whiteTextSentences, "white-text", 400, whiteSection);
-      createScrollingRow(shiftLeft(whiteTextSentences, 2), "white-text", 400, whiteSection);
-      createScrollingRow(shiftLeft(whiteTextSentences, 4), "white-text", 500, whiteSection);
-      createScrollingRow(shiftLeft(whiteTextSentences, 6), "white-text", 400, whiteSection);
-      createScrollingRow(shiftLeft(whiteTextSentences, 8), "white-text", 350, whiteSection);
+      // Configuration for rows
+      const rowConfigs = [
+        { shift: 0, speed: 400 },
+        { shift: 2, speed: 400 },
+        { shift: 4, speed: 500 },
+        { shift: 6, speed: 400 },
+        { shift: 8, speed: 350 },
+      ];
 
-      // Add black text rows
-      const blackSection = document.getElementById("black-text-section");
-      createScrollingRow(blackTextSentences, "black-text", 400, blackSection);
-      createScrollingRow(shiftLeft(blackTextSentences, 2), "black-text", 400, blackSection);
-      createScrollingRow(shiftLeft(blackTextSentences, 4), "black-text", 500, blackSection);
-      createScrollingRow(shiftLeft(blackTextSentences, 6), "black-text", 400, blackSection);
-      createScrollingRow(shiftLeft(blackTextSentences, 8), "black-text", 350, blackSection);
+      // Generate all scrolling rows
+      generateScrollingRows(texts.white, "white-text", "white-text-section", rowConfigs);
+      generateScrollingRows(texts.black, "black-text", "black-text-section", rowConfigs);
     </script>
   </body>
 </html>
